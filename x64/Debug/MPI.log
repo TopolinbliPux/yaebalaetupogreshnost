@@ -1,0 +1,12 @@
+﻿  Functions.cpp
+  MyForm.cpp
+E:\study3\MPI\MPI\MPI\MyForm.h(550,57): warning C5307: 'System::String ^System::String::Replace(wchar_t,wchar_t)': argument (1) converted from 'char' to 'wchar_t'. Missing 'L' encoding-prefix for character literal?
+  (компиляция исходного файла "MyForm.cpp")
+  
+E:\study3\MPI\MPI\MPI\MyForm.h(550,57): warning C5307: 'System::String ^System::String::Replace(wchar_t,wchar_t)': argument (2) converted from 'char' to 'wchar_t'. Missing 'L' encoding-prefix for character literal?
+  (компиляция исходного файла "MyForm.cpp")
+  
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Создание кода...
+  Functions.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
+  MPI.vcxproj -> E:\study3\MPI\MPI\x64\Debug\MPI.exe
