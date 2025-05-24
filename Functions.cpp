@@ -70,16 +70,16 @@ bool not_an_area(int i, int j, int n, int m)
     return false;
 }
 
-bool is_inner_point(int i, int j, int n, int m)
-{
-    return (!border(i, j, n, m) && !not_an_area(i, j, n, m));
+bool is_inner_point(int i, int j, int n, int m) {
+    if (i <= 0 || i >= n || j <= 0 || j >= m) return false;
+    return !border(i, j, n, m) && !not_an_area(i, j, n, m);
 }
 
-double u(double x,double y)
+double u(double x, double y)
 {
     double sin_pi_xy = sin(M_PI * x * y);
     double sin_squared = sin_pi_xy * sin_pi_xy;
-    return exp(sin_squared);  // e^(sin²(πxy))
+    return exp(sin_squared);  // e^(sinВІ(ПЂxy))
 }
 double f(double x, double y)
 {
@@ -87,73 +87,55 @@ double f(double x, double y)
     double sin_quad_pi_xy = sin_pi_xy * sin_pi_xy;
     double exp_sin_quad = exp(sin_quad_pi_xy);
 
-    double sin_2pi_xy = sin(2*M_PI * x * y);
+    double sin_2pi_xy = sin(2 * M_PI * x * y);
     double cos_2pi_xy = cos(2 * M_PI * x * y);
-    
+
     double d2u_dx2_d2u_dy2 = M_PI * M_PI * exp_sin_quad * (sin_2pi_xy * sin_2pi_xy + 2 * cos_2pi_xy) * (x * x + y * y);
-   
+
     return -(d2u_dx2_d2u_dy2);
 }
 
 vector<vector<int>> classify(int n, int m) {
-    vector<vector<int>> node_types(n + 1, vector<int>(m + 1, 5));
-
-    for (int i = 0; i <= n; ++i) {
+    vector<vector<int>> T(n + 1, vector<int>(m + 1, -1));
+    // РЁР°Рі 1: РіСЂР°РЅРёС†Р° Рё В«РЅРµ_Р·РѕРЅР°В»
+    for (int i = 0; i <= n; ++i)
         for (int j = 0; j <= m; ++j) {
-            if (border(i, j, n, m)) {
-                node_types[i][j] = 0;
-            }
-            else if (!not_an_area(i, j, n, m)) {
-                bool near_border = false;
-                if (i > 0 && node_types[i - 1][j] == 0) near_border = true;
-                if (i < n && node_types[i + 1][j] == 0) near_border = true;
-                if (j > 0 && node_types[i][j - 1] == 0) near_border = true;
-                if (j < m && node_types[i][j + 1] == 0) near_border = true;
-
-                node_types[i][j] = near_border ? 2 : 1;
+            if (border(i, j, n, m))           T[i][j] = 0;
+            else if (not_an_area(i, j, n, m)) T[i][j] = 5;
+        }
+    // РЁР°Рі 2: РІРЅСѓС‚СЂРµРЅРЅРёРµ С‚РѕС‡РєРё
+    for (int i = 1; i < n; ++i)
+        for (int j = 1; j < m; ++j) {
+            if (T[i][j] == -1) {
+                bool near = (T[i - 1][j] == 0 || T[i + 1][j] == 0 || T[i][j - 1] == 0 || T[i][j + 1] == 0);
+                T[i][j] = near ? 2 : 1;
             }
         }
-    }
-    return node_types;
+    return T;
 }
-// Вычисляет евклидову норму разности ||v_new - v||_2
-EXAMPLE_API double compute_euclidean_norm(const vector<vector<double>>& v,
-    const vector<vector<int>>& node_types,
-    int n, int m, double h, double k, bool use_max) {
-    double max_norm = 0.0, sum_sq = 0.0;
 
-    for (int i = 0; i <= n; ++i) {
-        for (int j = 0; j <= m; ++j) {
-            if (node_types[i][j] > 0 && node_types[i][j] < 5) {
-                double x = a + i * h;
-                double y = c + j * k;
-                double Av = (v[i + 1][j] - 2 * v[i][j] + v[i - 1][j]) / (h * h) +
-                    (v[i][j + 1] - 2 * v[i][j] + v[i][j - 1]) / (k * k);
-                // Исправлено: res = f(x, y) - Av
-                double res = f(x, y) - Av;
-
-                max_norm = max(max_norm, abs(res));
-                sum_sq += res * res;
-            }
-        }
-    }
-    return use_max ? max_norm : sqrt(sum_sq);
-}
-double calc_eps_s(std::vector<double>& history_norms,
-    const std::vector<std::vector<double>>& v_new,
-    const std::vector<std::vector<double>>& v,
-    const std::vector<std::vector<int>>& node_types, 
-    int n, int m, double h, double k)
+double calc_eps(const vector<vector<double>>& R,
+    const vector<vector<double>>& V,
+    int n, int m,
+    double h, double k,
+    double& max_i, double& max_j)
 {
-    double current_norm = compute_residual_norm(
-        v_new, node_types, n, m, h, k);
-    history_norms.push_back(current_norm);
-    return *std::max_element(history_norms.begin(), history_norms.end());
+    double max_diff = 0.0;
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < m; ++j) {
+            double diff = fabs(R[i][j] - V[i][j]);
+            if (diff > max_diff) {
+                max_diff = diff;
+                max_i = i;
+                max_j = j;
+            }
+        }
+    return max_diff;
 }
 //для справки max|u*-v|
 EXAMPLE_API double compute_max_error(const vector<vector<double>>& v,
     int n, int m,
-    int& max_i, int& max_j) { // Принимает int&
+    int& max_i, int& max_j) { // РџСЂРёРЅРёРјР°РµС‚ int&
     double max_error = 0.0;
     max_i = 0;
     max_j = 0;
@@ -167,8 +149,8 @@ EXAMPLE_API double compute_max_error(const vector<vector<double>>& v,
                 double error = abs(u_val - v[i][j]);
                 if (error > max_error) {
                     max_error = error;
-                    max_i = i; // int = int
-                    max_j = j; // int = int
+                    max_i = i; 
+                    max_j = j; 
                 }
             }
         }
@@ -206,10 +188,10 @@ EXAMPLE_API double compute_residual_norm(
 ) {
     double sum_sq = 0.0;
 
-    for (int i = 1; i < n; ++i) {        // Исключаем граничные узлы по x
-        for (int j = 1; j < m; ++j) {    // Исключаем граничные узлы по y
+    for (int i = 1; i < n; ++i) {       // Исключаем граничные узлы по x
+        for (int j = 1; j < m; ++j) {     // Исключаем граничные узлы по y
             if (node_types[i][j] == 1 || node_types[i][j] == 2) {
-                // Точка (x, y)
+                // РўРѕС‡РєР° (x, y)
                 double x = a + i * h;
                 double y = c + j * k;
 
@@ -225,7 +207,7 @@ EXAMPLE_API double compute_residual_norm(
         }
     }
 
-    return sqrt(sum_sq); // Евклидова норма
+    return sqrt(sum_sq);// Евклидова норма
 }
 EXAMPLE_API double compute_max_diff(
     const vector<vector<double>>& v_new,
@@ -267,11 +249,11 @@ EXAMPLE_API Results MyMPI(int m_, int n_, int Nmax, double epsilon_method)
     std::vector<double> norm_history;
 
     // 1. Расчет параметров метода
-    /*const double M_max = 4.0 * (1.0 / h2 + 1.0 / k2);
-    const double M_min = std::min({ 2.0 * (1.0 / h2 + 1.0 / k2), 2.0 / h2, 2.0 / k2 });*/
+    const double M_max = 4.0 * (1.0 / h2 + 1.0 / k2);
+    const double M_min = std::min({ 2.0 * (1.0 / h2 + 1.0 / k2), 2.0 / h2, 2.0 / k2 });
     // Стало (для прямоугольной области):
-    const double M_max = 8.0 * (1.0 / h2 + 1.0 / k2); // Более точная оценка
-    const double M_min = M_PI * M_PI * (1.0 / (b - a) + 1.0 / (d - c)); // Априорная оценка
+    /*const double M_max = 8.0 * (1.0 / h2 + 1.0 / k2); 
+    const double M_min = M_PI * M_PI * (1.0 / (b - a) + 1.0 / (d - c)); */
     const double Tau_opt = 2.0 / (M_min + M_max);
     const double Mu_A = M_max / M_min;
 
@@ -313,8 +295,8 @@ EXAMPLE_API Results MyMPI(int m_, int n_, int Nmax, double epsilon_method)
 
         // Вычисление нормы
         double residual = compute_residual_norm(v_new, node_types, n, m, h, k);
-        eps = compute_max_diff(v_new, v, node_types, n, m); // Максимальная разность между итерациями
-        norm_history.push_back(residual); // Сохраняем невязку для истории
+        eps = compute_max_diff(v_new, v, node_types, n, m);  // Максимальная разность между итерациями
+        norm_history.push_back(residual);  // Сохраняем невязку для истории
         v.swap(v_new);
         iter++;
     }
@@ -354,7 +336,7 @@ EXAMPLE_API Results MyMPI(int m_, int n_, int Nmax, double epsilon_method)
     res.final_epsilon = eps;
     savetxt("u_exact.txt", u_exact);
     savetxt("error.txt", error);
+    savetxt("solution.txt", v);
 
     return res;
 }
-
