@@ -4,6 +4,12 @@ from mpl_toolkits.mplot3d import Axes3D
 import sys
 
 def save_plots():
+    import glob, os
+    for f in glob.glob("*.png"):
+        try:
+            os.remove(f)
+        except:
+            pass
     # Загрузка данных
     solution = np.loadtxt('solution.txt')
     error = np.loadtxt('error.txt')
@@ -21,12 +27,12 @@ def save_plots():
 
     # Список графиков и соответствующих имен файлов
     plots = [
-        (solution, 'Численное решение', 'viridis', 'solution1'),
-        (u_exact, 'Точное решение', 'plasma', 'u_exact1'),
-        (error, 'Ошибка', 'coolwarm', 'error1'),
-        (solution, 'Числ. вид сверху', 'viridis', 'solution2'),
-        (u_exact, 'Точн. вид сверху', 'plasma', 'u_exact2'),
-        (error, 'Ошибка вид сверху', 'coolwarm', 'error2')
+       (solution, 'Численное решение', 'summer', 'solution1'),
+        (u_exact, 'Точное решение', 'summer', 'u_exact1'),
+        (error, 'Ошибка', 'summer', 'error1'),
+        (solution, 'Числ. вид сверху', 'summer', 'solution2'),
+        (u_exact, 'Точн. вид сверху', 'summer', 'u_exact2'),
+        (error, 'Ошибка вид сверху', 'summer', 'error2')
     ]
 
     for i, (data, title, cmap, filename) in enumerate(plots):
@@ -41,7 +47,7 @@ def save_plots():
         fig.colorbar(surf)
         plt.title(title)
         plt.savefig(f'{filename}.png', dpi=100, bbox_inches='tight')
-        plt.close()
+        plt.close(fig)
 
 if __name__ == "__main__":
     save_plots()
