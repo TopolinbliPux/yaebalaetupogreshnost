@@ -88,6 +88,10 @@ namespace MPI {
 	private: System::Windows::Forms::RadioButton^ radioButton3;
 	private: System::Windows::Forms::RadioButton^ radioButton2;
 	private: System::Windows::Forms::RadioButton^ radioButton1;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::TextBox^ textBox9;
+	private: System::Windows::Forms::Button^ button2;
+
 
 
 	private:
@@ -142,10 +146,15 @@ namespace MPI {
 			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
 			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->textBox9 = (gcnew System::Windows::Forms::TextBox());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->groupBox2->SuspendLayout();
 			this->groupBox3->SuspendLayout();
+			
 			this->SuspendLayout();
 			// 
 			// label2
@@ -211,7 +220,7 @@ namespace MPI {
 			// 
 			// textBox4
 			// 
-			this->textBox4->Location = System::Drawing::Point(236, 108);
+			this->textBox4->Location = System::Drawing::Point(226, 102);
 			this->textBox4->Name = L"textBox4";
 			this->textBox4->Size = System::Drawing::Size(100, 22);
 			this->textBox4->TabIndex = 13;
@@ -316,7 +325,7 @@ namespace MPI {
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersWidth = 51;
 			this->dataGridView1->RowTemplate->Height = 24;
-			this->dataGridView1->Size = System::Drawing::Size(1363, 870);
+			this->dataGridView1->Size = System::Drawing::Size(1363, 535);
 			this->dataGridView1->TabIndex = 34;
 			// 
 			// button1
@@ -332,7 +341,7 @@ namespace MPI {
 			// label19
 			// 
 			this->label19->AutoSize = true;
-			this->label19->Location = System::Drawing::Point(156, 560);
+			this->label19->Location = System::Drawing::Point(451, 528);
 			this->label19->Name = L"label19";
 			this->label19->Size = System::Drawing::Size(17, 16);
 			this->label19->TabIndex = 49;
@@ -340,14 +349,14 @@ namespace MPI {
 			// 
 			// textBox18
 			// 
-			this->textBox18->Location = System::Drawing::Point(179, 558);
+			this->textBox18->Location = System::Drawing::Point(474, 525);
 			this->textBox18->Name = L"textBox18";
 			this->textBox18->Size = System::Drawing::Size(100, 22);
 			this->textBox18->TabIndex = 48;
 			// 
 			// textBox17
 			// 
-			this->textBox17->Location = System::Drawing::Point(179, 529);
+			this->textBox17->Location = System::Drawing::Point(474, 497);
 			this->textBox17->Name = L"textBox17";
 			this->textBox17->Size = System::Drawing::Size(100, 22);
 			this->textBox17->TabIndex = 47;
@@ -355,7 +364,7 @@ namespace MPI {
 			// label18
 			// 
 			this->label18->AutoSize = true;
-			this->label18->Location = System::Drawing::Point(15, 532);
+			this->label18->Location = System::Drawing::Point(310, 500);
 			this->label18->Name = L"label18";
 			this->label18->Size = System::Drawing::Size(158, 16);
 			this->label18->TabIndex = 46;
@@ -503,11 +512,94 @@ namespace MPI {
 			this->radioButton1->Text = L"Численное решение v";
 			this->radioButton1->UseVisualStyleBackColor = true;
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(13, 556);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(126, 16);
+			this->label1->TabIndex = 52;
+			this->label1->Text = L"Задача считается";
+			// 
+			// textBox9
+			// 
+			this->textBox9->Location = System::Drawing::Point(145, 553);
+			this->textBox9->Name = L"textBox9";
+			this->textBox9->Size = System::Drawing::Size(278, 22);
+			this->textBox9->TabIndex = 53;
+			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(15, 597);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(150, 23);
+			this->button2->TabIndex = 54;
+			this->button2->Text = L"Построить графики";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click_1);
+			//// 
+			//// pictureBox1
+			//// 
+			//this->pictureBox1->Location = System::Drawing::Point(15, 626);
+			//this->pictureBox1->Name = L"pictureBox1";
+			//this->pictureBox1->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox1->TabIndex = 55;
+			//this->pictureBox1->TabStop = false;
+			//// 
+			//// pictureBox2
+			//// 
+			//this->pictureBox2->Location = System::Drawing::Point(252, 847);
+			//this->pictureBox2->Name = L"pictureBox2";
+			//this->pictureBox2->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox2->TabIndex = 56;
+			//this->pictureBox2->TabStop = false;
+			//// 
+			//// pictureBox3
+			//// 
+			//this->pictureBox3->Location = System::Drawing::Point(474, 626);
+			//this->pictureBox3->Name = L"pictureBox3";
+			//this->pictureBox3->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox3->TabIndex = 57;
+			//this->pictureBox3->TabStop = false;
+			//// 
+			//// pictureBox4
+			//// 
+			//this->pictureBox4->Location = System::Drawing::Point(799, 755);
+			//this->pictureBox4->Name = L"pictureBox4";
+			//this->pictureBox4->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox4->TabIndex = 58;
+			//this->pictureBox4->TabStop = false;
+			//// 
+			//// pictureBox5
+			//// 
+			//this->pictureBox5->Location = System::Drawing::Point(1111, 615);
+			//this->pictureBox5->Name = L"pictureBox5";
+			//this->pictureBox5->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox5->TabIndex = 59;
+			//this->pictureBox5->TabStop = false;
+			//// 
+			//// pictureBox6
+			//// 
+			//this->pictureBox6->Location = System::Drawing::Point(1436, 767);
+			//this->pictureBox6->Name = L"pictureBox6";
+			//this->pictureBox6->Size = System::Drawing::Size(378, 341);
+			//this->pictureBox6->TabIndex = 60;
+			//this->pictureBox6->TabStop = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1922, 1053);
+			this->ClientSize = System::Drawing::Size(1922, 1400);
+			/*this->Controls->Add(this->pictureBox6);
+			this->Controls->Add(this->pictureBox5);
+			this->Controls->Add(this->pictureBox4);
+			this->Controls->Add(this->pictureBox3);
+			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->pictureBox1);*/
+			this->Controls->Add(this->button2);
+			this->Controls->Add(this->textBox9);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->groupBox3);
 			this->Controls->Add(this->groupBox2);
 			this->Controls->Add(this->label19);
@@ -538,8 +630,40 @@ namespace MPI {
 			this->groupBox2->PerformLayout();
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox3->PerformLayout();
+			/*(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox6))->EndInit();*/
 			this->ResumeLayout(false);
 			this->PerformLayout();
+
+			this->pictureBoxes = gcnew cli::array<PictureBox^>(6);
+			// Параметры расположения
+			int startY = 450;       // Стартовая позиция Y первого ряда
+			int itemWidth = 283;    // Ширина PictureBox
+			int itemHeight = 256;   // Высота PictureBox
+			int horizontalSpacing = 20; // Горизонтальный отступ между элементами
+			int verticalSpacing = 30;   // Вертикальный отступ между рядами
+
+			for (int i = 0; i < 6; ++i) {
+				this->pictureBoxes[i] = gcnew PictureBox();
+				this->pictureBoxes[i]->Size = System::Drawing::Size(itemWidth, itemHeight);
+				this->pictureBoxes[i]->SizeMode = PictureBoxSizeMode::Zoom;
+
+				// Расчет позиции
+				int row = i / 3;    // 0 - первый ряд, 1 - второй ряд
+				int col = i % 3;    // 0, 1, 2 - позиция в ряду
+
+				// Формула расчета координат
+				int x = 15 + col * (itemWidth + horizontalSpacing);
+				int y = startY + row * (itemHeight + verticalSpacing);
+
+				this->pictureBoxes[i]->Location = System::Drawing::Point(x, y);
+				this->Controls->Add(this->pictureBoxes[i]);
+			}
+
 
 		}
 #pragma endregion
@@ -549,8 +673,12 @@ namespace MPI {
 		int m = Int32::Parse(textBox2->Text);
 		double epsilon_method = Double::Parse(textBox3->Text->Replace(',', '.'),System::Globalization::CultureInfo::InvariantCulture);
 		int Nmax = Int32::Parse(textBox4->Text);
+		System::Diagnostics::Stopwatch^ stopwatch = gcnew System::Diagnostics::Stopwatch();
+		stopwatch->Start();
 
 		Results result = MyMPI(m, n, Nmax, epsilon_method);
+		stopwatch->Stop();
+		textBox9->Text = String::Format("{0} мс", stopwatch->ElapsedMilliseconds);
 		result.max_error = compute_max_error(result.v, n, m, result.max_i, result.max_j);
 
 		textBox5->Text = result.m_min.ToString("F4");
@@ -712,5 +840,36 @@ private: System::Void textBox1_TextChanged(System::Object^ sender, System::Event
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 
 }
+	   private:
+		   cli::array<System::Windows::Forms::PictureBox^>^ pictureBoxes;
+private:
+	System::Void button2_Click_1(System::Object^ sender, System::EventArgs^ e) {
+		// Запуск Python скрипта
+		system("python graphic.py");
+
+		// 5. Используем управляемый массив
+		cli::array<String^>^ filenames = {
+			"solution1.png", "u_exact1.png", "error1.png",
+			"solution2.png", "u_exact2.png", "error2.png"
+		};
+
+		// 6. Загрузка изображений
+		for (int i = 0; i < 6; ++i) {
+			try {
+				if (pictureBoxes[i]->Image != nullptr) {
+					delete pictureBoxes[i]->Image;
+				}
+
+				// 7. Исправление кодировки символов
+				String^ path = filenames[i]->Replace(L'\\', L'/');
+
+				Image^ img = Image::FromFile(path);
+				pictureBoxes[i]->Image = img;
+			}
+			catch (Exception^ ex) {
+				MessageBox::Show("Ошибка загрузки: " + filenames[i] + "\n" + ex->Message);
+			}
+		}
+	}
 };
 }

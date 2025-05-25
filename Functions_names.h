@@ -83,14 +83,14 @@ EXAMPLE_API Results MyMPI(int m_, int n_, int Nmax, double epsilon_method);
 EXAMPLE_API double compute_max_error(const vector<vector<double>>& v,
     int n, int m,
     int& max_i, int& max_j);
-EXAMPLE_API double compute_euclidean_norm(const vector<vector<double>>& v,
-    const vector<vector<int>>& node_types,
-    int n, int m, double h, double k, bool use_max);
-EXAMPLE_API double calc_eps_s(std::vector<double>& history_norms,
-    const std::vector<std::vector<double>>& v_new,
-    const std::vector<std::vector<double>>& v,
-    const std::vector<std::vector<int>>& node_types,
-    int n, int m, double h, double k);
+//EXAMPLE_API double compute_euclidean_norm(const vector<vector<double>>& v,
+//    const vector<vector<int>>& node_types,
+//    int n, int m, double h, double k, bool use_max);
+//EXAMPLE_API double calc_eps_s(std::vector<double>& history_norms,
+//    const std::vector<std::vector<double>>& v_new,
+//    const std::vector<std::vector<double>>& v,
+//    const std::vector<std::vector<int>>& node_types,
+//    int n, int m, double h, double k);
 EXAMPLE_API double compute_residual_norm(
     const vector<vector<double>>& v,
     const vector<vector<int>>& node_types,
